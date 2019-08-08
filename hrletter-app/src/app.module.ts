@@ -12,7 +12,7 @@ dotenv.config();
 @Module({
   imports: [
     EntityModule,
-    //DatabaseModule,
+    DatabaseModule,
     GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
     MongooseModule.forRoot(process.env.MONGO_URL),
   ],
