@@ -8,7 +8,7 @@ export class EntityController {
   constructor(private readonly entityService: EntityService) {}
 
   @Post()
-  async create(@Body('name') createEntityDto: EntityType) {
+  async create(@Body() createEntityDto: EntityType) {
     this.entityService.create(createEntityDto);
   }
 
