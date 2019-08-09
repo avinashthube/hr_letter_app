@@ -13,13 +13,18 @@ export class EntityResolver {
   }
 
   @Query(() => [EntityType])
-  async entities() {
-    console.log(this.entityService.findAll());
-    return this.entityService.findAll();
+  async findAllEntities() {
+    console.log(this.entityService.findAllEntities());
+    return this.entityService.findAllEntities();
   }
 
   @Mutation(() => EntityType)
   async createEntity(@Args('input') input: EntityInput) {
-    return this.entityService.create(input);
+    return this.entityService.createEntity(input);
   }
+
+  // @Mutation(() => EntityType)
+  // async updateEntity(@Args('input') input: EntityInput) {
+  //   return this.entityService.updateEntity(input);
+  // }
 }

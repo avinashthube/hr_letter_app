@@ -14,7 +14,10 @@ dotenv.config();
     EntityModule,
     DatabaseModule,
     GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forRoot(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -18,5 +18,5 @@ type Mutation {
 
 type Query {
   hello: String!
-  entities: [EntityType!]!
+  findAllEntities: [EntityType!]!
 }

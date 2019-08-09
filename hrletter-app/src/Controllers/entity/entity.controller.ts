@@ -11,24 +11,31 @@ import {
 import { EntityService } from './entity.service';
 import { EntityType } from './createEntity.dto';
 
-@Controller('entity')
+@Controller('admin/entity')
 export class EntityController {
   constructor(private readonly entityService: EntityService) {}
 
   @Post()
   async createEntity(@Body() createEntityDto: EntityType) {
-    this.entityService.create(createEntityDto);
+    return this.entityService.createEntity(createEntityDto);
+  }
+
+  @Get(':entityType')
+  async findSingleEntity(@Param('entityType') entityType: string) {
+    let result = this.entityService.findSingleEntity(entityType);
+    console.log(result);
+    return result;
   }
 
   @Get()
-  async findAll(): Promise<Entity[]> {
-    return this.entityService.findAll();
+  async findAllEntities(): Promise<Entity[]> {
+    return this.entityService.findAllEntities();
   }
 
   @Delete(':entityId')
   async deleteEntity(@Param('entityId') entityId: string) {
-    await this.entityService.delete(entityId);
-    return null;
+    return await this.entityService.deleteEntity(entityId);
+    //return null;
   }
 
   @Put(':entityId')
@@ -36,7 +43,7 @@ export class EntityController {
     @Param('entityId') entityId: string,
     @Body('entityType') entityType: string,
   ) {
-    await this.entityService.updateEntity(entityId, entityType);
-    return null;
+    return await this.entityService.updateEntity(entityId, entityType);
+    //return 'Record Updated';
   }
 }

@@ -3,6 +3,7 @@ import { EntityInput } from './entity.input';
 import { Entity } from './entityInterface';
 import { Model } from 'mongoose';
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { json } from 'body-parser';
 
 @Injectable()
 export class EntityService {
@@ -11,17 +12,39 @@ export class EntityService {
     private readonly entityModel: Model<Entity>,
   ) {}
 
-  async create(createEntityDto: EntityInput): Promise<Entity> {
-    const createdEntity = new this.entityModel(createEntityDto);
-    console.log(createdEntity);
-    return await createdEntity.save();
+  async createEntity(createEntityDto: EntityInput) {
+    let count = await this.entityModel
+      .count({ entityType: createEntityDto.entityType })
+      .exec();
+    if (count) {
+      console.log('Create Entity Error', count);
+      return 'Entity Name Already Exist';
+    } else {
+      const createdEntity = new this.entityModel(createEntityDto);
+      console.log(createdEntity);
+      return await createdEntity.save();
+    }
   }
 
-  async findAll(): Promise<Entity[]> {
+  async findSingleEntity(entityType: string) {
+    let entity;
+    try {
+      entity = await this.entityModel.find({ entityType: entityType }).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find entity.');
+    }
+    if (!entity) {
+      throw new NotFoundException('Could not find entity.');
+    }
+    console.log(entity);
+    return entity;
+  }
+
+  async findAllEntities(): Promise<Entity[]> {
     return await this.entityModel.find().exec();
   }
 
-  async delete(entityId: string) {
+  async deleteEntity(entityId: string) {
     const result = await this.entityModel
       .deleteOne({ entityID: entityId })
       .exec();
@@ -29,33 +52,22 @@ export class EntityService {
       throw new NotFoundException('Could not find product.');
     }
   }
-  async findEntity(entityId: string) {
-    let entity;
-    try {
-      entity = await this.entityModel.find({ entityId }).exec();
-    } catch (error) {
-      throw new NotFoundException('Could not find entity.');
-    }
-    if (!entity) {
-      throw new NotFoundException('Could not find entity.');
-    }
-    return entity;
-  }
 
   async updateEntity(entityId: string, entityType: string) {
-    // const updatedEntity = await this.findEntity(entityId);
-    // if (entityType) {
-    //   updatedEntity.entityType = entityType;
-    //   updatedEntity.last_update_date = new Date();
-    // }
-    // await updatedEntity.save();
-
-    return await this.entityModel.findOneAndUpdate(
-      { entityId: { entityId } },
-      entityType,
-      {
-        new: true,
-      },
-    );
+    let count = await this.entityModel.count({ entityType: entityType }).exec();
+    console.log('Entity count: ', count);
+    if (count) {
+      return 'Entity type already exist';
+    } else {
+      return await this.entityModel
+        .findOneAndUpdate(
+          { entityID: entityId },
+          { entityType: entityType, last_update_date: Date.now() },
+          {
+            new: true,
+          },
+        )
+        .exec();
+    }
   }
 }
