@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
-import { entityModel } from './entityModel';
+import { entityModel } from './Model/entity.model';
 
-export const entityProviders = [
+export const entityProvider = [
   {
     provide: 'ENTITY_MODEL',
     useFactory: (connection: Connection) =>

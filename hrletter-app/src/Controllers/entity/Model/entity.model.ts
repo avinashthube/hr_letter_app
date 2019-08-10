@@ -7,14 +7,14 @@ const u2 = U1.replace(/-/g, '');
 console.log('id', u2);
 
 export const entityModel = new mongoose.Schema({
-  created_by: String,
-  created_on: { type: Date, default: Date.now },
-  deleted_by: String,
+  createdBy: String,
+  createdOn: { type: Date, default: Date.now() },
+  deletedBy: String,
   entityID: {
     type: String, // mongoose.Schema.Types.ObjectId,
     default: u2,
   },
-  last_update_date: { type: Date, default: Date.now },
-  entityType: { type: String },
-  updated_by: String,
+  lastUpdateDate: { type: Date, default: Date.now() },
+  entityType: { type: String, uppercase: true },
+  updatedBy: String,
 });

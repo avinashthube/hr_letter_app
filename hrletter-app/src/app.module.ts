@@ -5,6 +5,7 @@ import { EntityModule } from './Controllers/entity/entity.module';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EmployeeModule } from './Controllers/employee/employee.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,6 +13,7 @@ dotenv.config();
 @Module({
   imports: [
     EntityModule,
+    EmployeeModule,
     DatabaseModule,
     GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
     MongooseModule.forRoot(process.env.MONGO_URL, {

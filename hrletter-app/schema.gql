@@ -3,20 +3,93 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+input EmployeeInput {
+  address: String!
+  agreementPeriod: Float!
+  createdBy: String!
+  updatedBy: String!
+  deletedBy: String!
+  dateOfJoining: DateTime!
+  dateOfRelieving: DateTime!
+  departmentID: String!
+  designation: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  lastUpdateDate: DateTime!
+  password: String!
+  periodEndDdate: DateTime!
+  periodOfAppraisal: DateTime!
+  periodStartDate: DateTime!
+  phoneNumber: String!
+  registrationLink: String!
+  revisedAmount: Float!
+  salary: Float!
+  status: String!
+  tagCode: String!
+  tenureOfService: Float!
+}
+
+type EmployeeType {
+  employeeID: String!
+  officeID: String!
+  address: String!
+  agreementPeriod: Float!
+  createdBy: String!
+  updatedBy: String!
+  deletedBy: String!
+  createdOn: DateTime!
+  dateOfJoining: DateTime!
+  dateOfRelieving: DateTime!
+  departmentID: String!
+  designation: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  lastUpdateDate: DateTime
+  password: String!
+  periodEndDdate: DateTime!
+  periodOfAppraisal: DateTime!
+  periodStartDate: DateTime!
+  phoneNumber: String!
+  registrationLink: String!
+  revisedAmount: Float!
+  salary: Float!
+  status: String!
+  tagCode: String!
+  tenureOfService: Float!
+}
+
 input EntityInput {
   entityType: String!
 }
 
 type EntityType {
-  entityId: ID!
+  entityID: String!
   entityType: String!
+  createdBy: String
+  createdOn: DateTime!
+  deletedBy: String
+  lastUpdateDate: DateTime!
+  updatedBy: String
 }
 
 type Mutation {
-  createEntity(input: EntityInput!): EntityType!
+  createEntity(entityInput: EntityInput!): EntityType!
+  deleteEntity(entityType: String!): EntityType!
+  updateEntity(entityType: String!, entityId: String!): EntityType!
+  createEmployee(employeeInput: EmployeeInput!): EmployeeType!
+  deleteEmployee(employeeId: String!): EmployeeType!
+  updateEmployee(employeeInput: EmployeeInput!, employeeId: String!): EmployeeType!
 }
 
 type Query {
   hello: String!
   findAllEntities: [EntityType!]!
+  findAllEmployees: [EmployeeType!]!
 }

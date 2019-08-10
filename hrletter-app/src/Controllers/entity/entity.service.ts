@@ -1,9 +1,7 @@
-import { EntityType } from './createEntity.dto';
-import { EntityInput } from './entity.input';
-import { Entity } from './entityInterface';
+import { EntityInput } from './graphql/entity.input';
+import { Entity } from './interface/entityInterface';
 import { Model } from 'mongoose';
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { json } from 'body-parser';
 
 @Injectable()
 export class EntityService {
@@ -14,7 +12,7 @@ export class EntityService {
 
   async createEntity(createEntityDto: EntityInput) {
     let count = await this.entityModel
-      .count({ entityType: createEntityDto.entityType })
+      .count({ entityType: createEntityDto.entityType.toUpperCase() })
       .exec();
     if (count) {
       console.log('Create Entity Error', count);
@@ -29,7 +27,9 @@ export class EntityService {
   async findSingleEntity(entityType: string) {
     let entity;
     try {
-      entity = await this.entityModel.find({ entityType: entityType }).exec();
+      entity = await this.entityModel
+        .find({ entityType: entityType.toUpperCase() })
+        .exec();
     } catch (error) {
       throw new NotFoundException('Could not find entity.');
     }
@@ -44,17 +44,20 @@ export class EntityService {
     return await this.entityModel.find().exec();
   }
 
-  async deleteEntity(entityId: string) {
+  async deleteEntity(entityType: string) {
     const result = await this.entityModel
-      .deleteOne({ entityID: entityId })
+      .deleteOne({ entityType: entityType.toUpperCase() })
       .exec();
     if (result.n === 0) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find Entity Type.');
     }
+    return 'Entity Deleted';
   }
 
   async updateEntity(entityId: string, entityType: string) {
-    let count = await this.entityModel.count({ entityType: entityType }).exec();
+    let count = await this.entityModel
+      .count({ entityType: entityType.toUpperCase() })
+      .exec();
     console.log('Entity count: ', count);
     if (count) {
       return 'Entity type already exist';
@@ -62,7 +65,10 @@ export class EntityService {
       return await this.entityModel
         .findOneAndUpdate(
           { entityID: entityId },
-          { entityType: entityType, last_update_date: Date.now() },
+          {
+            entityType: entityType.toUpperCase(),
+            lastUpdateDate: Date.now(),
+          },
           {
             new: true,
           },

@@ -1,4 +1,4 @@
-import { Entity } from './entityInterface';
+import { Entity } from './interface/entityInterface';
 import {
   Controller,
   Get,
@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { EntityService } from './entity.service';
-import { EntityType } from './createEntity.dto';
+import { EntityType } from './dto/createEntity.dto';
 
 @Controller('admin/entity')
 export class EntityController {
@@ -32,10 +32,9 @@ export class EntityController {
     return this.entityService.findAllEntities();
   }
 
-  @Delete(':entityId')
-  async deleteEntity(@Param('entityId') entityId: string) {
-    return await this.entityService.deleteEntity(entityId);
-    //return null;
+  @Delete()
+  async deleteEntity(@Body('entityType') entityType: string) {
+    return await this.entityService.deleteEntity(entityType);
   }
 
   @Put(':entityId')
