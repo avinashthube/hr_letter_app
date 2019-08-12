@@ -1,3 +1,4 @@
+import { UserModule } from './user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmployeeController } from '../controller/employee.controller';
 import { EmployeeService } from '../service/employee.service';
@@ -11,6 +12,7 @@ import { employeeModel } from '../model/employee.model';
   imports: [
     DatabaseModule,
     MongooseModule.forFeature([{ name: 'Employee', schema: employeeModel }]),
+    UserModule,
   ],
   controllers: [EmployeeController],
   providers: [EmployeeService, ...employeeProvider, EmployeeResolver],

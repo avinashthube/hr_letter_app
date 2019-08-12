@@ -1,20 +1,40 @@
+import { UserService } from './user.service';
 import { EmployeeInput } from '../graphql/input/employee.input';
 import { Model } from 'mongoose';
 import { EmployeeInterface } from '../interface/employee.interface';
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { UserType } from 'src/dto/user.dto';
+import * as uuid from 'uuid/v4';
+import { UserModule } from 'src/module/user.module';
 
 @Injectable()
 export class EmployeeService {
   constructor(
     @Inject('EMPLOYEE_MODEL')
     private readonly employeeModel: Model<EmployeeInterface>,
+    private readonly userService: UserService,
   ) {}
 
   async createEmployee(createEmployeeDto: EmployeeInput) {
     try {
+      const u2 = uuid().replace(/-/g, '');
+      console.log('id', u2);
+
       const createdEmployee = new this.employeeModel(createEmployeeDto);
-      console.log(createdEmployee);
-      return await createdEmployee.save();
+      createdEmployee.employeeID = u2;
+      await createdEmployee.save();
+
+      // creating user record employeeID == userID
+
+      const createUserDto = new UserType();
+
+      createUserDto.userID = u2;
+      createUserDto.firstName = createEmployeeDto.firstName;
+      createUserDto.lastName = createEmployeeDto.lastName;
+      createUserDto.email = createEmployeeDto.email;
+      await this.userService.createUser(createUserDto); //createUser(createUserDto);
+
+      return 'Employee Record Created';
     } catch (e) {
       console.log('Employee record creation failure');
       return 'Employee record creation failure';

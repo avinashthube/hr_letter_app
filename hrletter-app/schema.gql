@@ -9,6 +9,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 input EmployeeInput {
+  employeeID: String!
   address: String!
   agreementPeriod: Float!
   createdBy: String!
@@ -33,6 +34,16 @@ input EmployeeInput {
   status: String!
   tagCode: String!
   tenureOfService: Float!
+}
+
+type EmployeeSpecific {
+  employeeID: String!
+  address: String!
+  designation: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 type EmployeeType {
@@ -91,5 +102,19 @@ type Mutation {
 type Query {
   hello: String!
   findAllEntities: [EntityType!]!
-  findAllEmployees: [EmployeeType!]!
+  findAllEmployees: [EmployeeSpecific!]!
+}
+
+type UserType {
+  userID: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  userStatus: String!
+  password: String!
+  createdBy: String
+  createdOn: DateTime!
+  deletedBy: String
+  lastUpdateDate: DateTime!
+  updatedBy: String
 }

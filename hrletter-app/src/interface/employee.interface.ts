@@ -1,6 +1,8 @@
+import { Address } from './address.interface';
 import { Document } from 'mongoose';
 
 export interface EmployeeInterface extends Document {
+  employeeID: string;
   readonly address: string;
   readonly agreementPeriod: number;
   readonly createdBy: string;

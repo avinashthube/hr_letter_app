@@ -1,13 +1,7 @@
 import * as mongoose from 'mongoose';
-import * as uuid from 'uuid/v4';
-
-const u1 = uuid();
-
-const u2 = u1.replace(/-/g, '');
-console.log('id', u2);
 
 export const employeeModel = new mongoose.Schema({
-  employeeID: { type: String, default: u2 }, // required field
+  employeeID: { type: String }, // required field
   officeID: String, // based on officeID fetch different offices
   address: {
     addressLine: String,

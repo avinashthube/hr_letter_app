@@ -1,4 +1,4 @@
-import { Entity } from '../interface/entityInterface';
+import { Entity } from '../interface/entity.interface';
 import {
   Controller,
   Get,
@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { EntityService } from '../service/entity.service';
-import { EntityType } from '../dto/createEntity.dto';
+import { EntityType } from '../dto/entity.dto';
 
 @Controller('admin/entity')
 export class EntityController {

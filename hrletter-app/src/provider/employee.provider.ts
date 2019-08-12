@@ -1,5 +1,6 @@
 import { Connection } from 'mongoose';
 import { employeeModel } from '../model/employee.model';
+import { userModel } from 'src/model/user.model';
 
 export const employeeProvider = [
   {

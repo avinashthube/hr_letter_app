@@ -1,5 +1,5 @@
 import { EntityInput } from '../graphql/input/entity.input';
-import { Entity } from '../interface/entityInterface';
+import { Entity } from '../interface/entity.interface';
 import { Model } from 'mongoose';
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 

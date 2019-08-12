@@ -1,3 +1,4 @@
+import { EmployeeSpecific } from './../../dto/employeespecific.dto';
 import { EmployeeInput } from '../input/employee.input';
 import { EmployeeType } from '../../dto/employee.dto';
 import { EmployeeService } from '../../service/employee.service';
@@ -7,20 +8,20 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 export class EmployeeResolver {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Query(() => [EmployeeType])
+  @Query(() => [EmployeeSpecific])
   async findAllEmployees() {
     console.log(this.employeeService.findAllEmployees());
-    return this.employeeService.findAllEmployees();
+    return await this.employeeService.findAllEmployees();
   }
 
   @Mutation(() => EmployeeType)
   async createEmployee(@Args('employeeInput') employeeInput: EmployeeInput) {
-    return this.employeeService.createEmployee(employeeInput);
+    return await this.employeeService.createEmployee(employeeInput);
   }
 
   @Mutation(() => EmployeeType)
   async deleteEmployee(@Args('employeeId') employeeId: string) {
-    return this.employeeService.deleteEmployee(employeeId);
+    return await this.employeeService.deleteEmployee(employeeId);
   }
 
   @Mutation(() => EmployeeType)
@@ -28,6 +29,6 @@ export class EmployeeResolver {
     @Args('employeeId') employeeId: string,
     @Args('employeeInput') employeeInput: EmployeeInput,
   ) {
-    return this.employeeService.updateEmployee(employeeId, employeeInput);
+    return await this.employeeService.updateEmployee(employeeId, employeeInput);
   }
 }

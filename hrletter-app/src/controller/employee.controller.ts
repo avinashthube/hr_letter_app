@@ -10,7 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 
-@Controller('employee')
+@Controller('admin/employee/profile')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
@@ -21,13 +21,15 @@ export class EmployeeController {
 
   @Get(':employeeID')
   async findSingleEmployee(@Param('employeeID') employeeID: string) {
-    let result = this.employeeService.findSingleEmployee(employeeID);
+    const result = this.employeeService.findSingleEmployee(employeeID);
     console.log(result);
     return result;
   }
   @Get()
   async findAllEmployees() {
-    return await this.employeeService.findAllEmployees();
+    const result = await this.employeeService.findAllEmployees();
+    console.log(result);
+    return result;
   }
 
   @Delete(':employeeID')
@@ -44,6 +46,6 @@ export class EmployeeController {
       employeeId,
       createEmployeeDto,
     );
-    //return 'Record Updated';
+    // return 'Record Updated';
   }
 }

@@ -1,9 +1,9 @@
-// import { Address } from './address.dto';
+import { Address } from './address.dto';
 import { ObjectType, Field } from 'type-graphql';
 
 @ObjectType()
 export class EmployeeType {
-  @Field() readonly employeeID: string;
+  @Field() employeeID: string;
   @Field() readonly officeID: string;
   @Field() readonly address: string;
   @Field() readonly agreementPeriod: number;

@@ -1,9 +1,10 @@
-// import { Address } from './../dto/address.dto';
+import { Address } from './../../dto/address.dto';
 import { InputType, Field } from 'type-graphql';
 
 @InputType()
 export class EmployeeInput {
   //  @Field() readonly officeID: string;
+  @Field() employeeID: string;
   @Field() readonly address: string;
   @Field() readonly agreementPeriod: number;
   @Field() readonly createdBy: string;

@@ -1,4 +1,4 @@
-import { EntityType } from '../../dto/createEntity.dto';
+import { EntityType } from '../../dto/entity.dto';
 import { EntityService } from '../../service/entity.service';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { EntityInput } from '../input/entity.input';
@@ -15,17 +15,17 @@ export class EntityResolver {
   @Query(() => [EntityType])
   async findAllEntities() {
     console.log(this.entityService.findAllEntities());
-    return this.entityService.findAllEntities();
+    return await this.entityService.findAllEntities();
   }
 
   @Mutation(() => EntityType)
   async createEntity(@Args('entityInput') entityInput: EntityInput) {
-    return this.entityService.createEntity(entityInput);
+    return await this.entityService.createEntity(entityInput);
   }
 
   @Mutation(() => EntityType)
   async deleteEntity(@Args('entityType') entityType: string) {
-    return this.entityService.deleteEntity(entityType);
+    return await this.entityService.deleteEntity(entityType);
   }
 
   @Mutation(() => EntityType)
@@ -33,6 +33,6 @@ export class EntityResolver {
     @Args('entityId') entityId: string,
     @Args('entityType') entityType: string,
   ) {
-    return this.entityService.updateEntity(entityId, entityType);
+    return await this.entityService.updateEntity(entityId, entityType);
   }
 }
